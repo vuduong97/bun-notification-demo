@@ -4,6 +4,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { IconButton, InputAdornment, TextField, Tooltip } from "@mui/material";
 import firebase from "firebase/compat/app";
 import "firebase/compat/messaging";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
@@ -55,9 +56,14 @@ export default function HomePage(props: IHomePageProps) {
       console.log("vao day ne: ", message);
 
       toast(
-        <div onClick={() => handleClickPushNotification(message?.data?.url)}>
-          <h5>{message?.data?.title}</h5>
-          <h6>{message?.data?.body}</h6>
+        <div
+          className="flex items-center"
+          onClick={() => handleClickPushNotification(message?.data?.url)}>
+          <div className="mr-2 flex-1">
+            <h5>{message?.data?.title}</h5>
+            <h6>{message?.data?.body}</h6>
+          </div>
+          <Image src={message?.data?.image} width={65} height={65} alt="" />
         </div>,
         {
           closeOnClick: false,
@@ -82,7 +88,7 @@ export default function HomePage(props: IHomePageProps) {
   return (
     <div className="h-screen flex w-full items-center">
       <div className="w-full">
-        <h2>Project name: {process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}</h2>
+        <h3>Project name: {process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}</h3>
 
         <div className="flex items-center">
           <p className="mr-2">Token: </p>
@@ -92,7 +98,6 @@ export default function HomePage(props: IHomePageProps) {
             onClose={handleTooltipClose}
             open={open}
             title="Đã sao chép"
-            placement="bottom-start"
             disableHoverListener>
             <TextField
               ref={textFieldRef}
